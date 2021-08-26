@@ -1,0 +1,37 @@
+version: "3"
+services:
+  postgres:
+    image: "postgres:latest"
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    expose:
+      - 5432:5432
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - external_network
+      - internal_network
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+  php-cli:
+    build: ./docker/php-cli
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_HOST=postgres
+    volumes:
+      - ./:/var/app
+    networks:
+      - internal_network
+volumes:
+  database:
+networks:
+  external_network:
+  internal_network:
+    internal: true
+

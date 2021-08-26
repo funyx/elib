@@ -1,0 +1,22 @@
+{
+    "name": "funyx/elib",
+    "type": "project",
+    "authors": [
+        {
+            "name": "funyx"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.3",
+        "ext-simplexml": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "funyx\\elib\\" : "src/"
+        }
+    },
+    "scripts": {
+        "up" : "docker-compose up -d",
+        "sync" : "docker-compose run php-cli php /var/app/cli/fs_db_sync.php"
+    }
+}
